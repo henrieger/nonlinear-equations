@@ -1,0 +1,9 @@
+Autores:
+    Leon Augusto Okida Gonçalves - GRR20190365 - laog19
+
+
+Justificativa do critério de parada:
+    alguma justificativa
+
+Demais informações:
+    demais informações
