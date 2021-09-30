@@ -1,5 +1,6 @@
 Autores:
     Leon Augusto Okida Gonçalves - GRR20190365 - laog19
+    Henrique Luiz Rieger - GRR20190357 - hlr19
 
 
 Justificativa do critério de parada:
