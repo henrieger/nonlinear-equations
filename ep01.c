@@ -6,18 +6,17 @@
 
 #define MAX 50
 
-int main(int argc, char *argv[]) {
+int main() {
     /* Atribuições e declarações */
+    char funcao[MAX];
     double x0, epsilon;
     int max_iter;
 
-    x0 = atof(argv[2]);
-    epsilon = atof(argv[3]);
-    max_iter = atoi(argv[4]);
+    printf("Digite a função, x0, epsilon e o número máximo de iterações:\n");
+    scanf("%s, %lf, %lf, %d", funcao, &x0, &epsilon, &max_iter);
 
     /* Obtendo função */
-    void *f;
-    f = evaluator_create(argv[1]);
+    void *f = evaluator_create(funcao);
 
     /* Tratando função */
 
