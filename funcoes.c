@@ -41,6 +41,10 @@ void iteracao(void *f, double x0, double epsilon, int max_iter) {
     double x0Newton = x0;
     double x0Secante, x1Secante;
     x0Secante = x0;
+
+    /* Impressão dos valores iniciais */
+    printf("0,%1.16e,%1.16e,%1.16e,%1.16e,0\n", x0Newton, x0Secante, (double) 0, (double) 0);
+
     do
     {
 
@@ -65,7 +69,7 @@ void iteracao(void *f, double x0, double epsilon, int max_iter) {
         ulps = abs(doubleToLongLong(secante_x) - doubleToLongLong(newton_x));
 
         /* Imprimir */
-        printf("%d,%1.16e,%1.16e,%1.16e,%1.16e,%d\n", i, newton_x, secante_x, ea, er, ulps);
+        printf("%d,%1.16e,%1.16e,%1.16e,%1.16e,%d\n", i+1, newton_x, secante_x, ea, er, ulps);
 
         /* Atribuindo valores para próximas iterações */
         x0Newton = newton_x;
