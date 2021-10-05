@@ -12,6 +12,9 @@ ep01: ep01.c $(objects)
 funcoes.o: funcoes.c funcoes.h
 	gcc -c funcoes.c $(CFLAGS)
 
+debug: CFLAGS += -g 
+debug: all
+
 purge: clean
 	-rm -f ep01
 clean:
