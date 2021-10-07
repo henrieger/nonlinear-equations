@@ -43,19 +43,23 @@ void iteracao(void *f, double x0, double epsilon, int max_iter) {
     x0Secante = x0;
 
     /* Impressão dos valores iniciais */
-    printf("0,%1.16e,%1.16e,%1.16e,%1.16e,0\n", x0Newton, x0Secante, (double) 0, (double) 0);
+    printf("0,%1.16e,%1.16e,%1.16e,%1.16e,%1.16e,%1.16e,0\n", 
+    x0Newton, fabs(evaluator_evaluate_x(f, x0)), x0Secante, 
+    fabs(evaluator_evaluate_x(f, x0)), (double) 0, (double) 0);
 
     do
     {
 
         /* Newton-Raphson */
         /* testar se já atingiu valor de parada também */
-        newton_x = newtonRaphson(f, &x0Newton);
+        if(i == 0 || newton_crit >= epsilon)
+            newton_x = newtonRaphson(f, &x0Newton);
 
         /* Secante */ 
         /* testar se já atingiu valor de parada também */
         if (i > 0) {
-            secante_x = secante(f, &x0Secante, &x1Secante);
+            if(secante_crit >= epsilon)
+                secante_x = secante(f, &x0Secante, &x1Secante);
         }
         else {
             x1Secante = newton_x;
@@ -63,13 +67,16 @@ void iteracao(void *f, double x0, double epsilon, int max_iter) {
         }
 
         /* Calcular newton_crit e secante_crit */
+        newton_crit = fabs(evaluator_evaluate_x(f, newton_x));
+        secante_crit = fabs(evaluator_evaluate_x(f, secante_x));
+
         /* Calcular EA e ER */
         ea = fabs(secante_x - newton_x);
         er = ea/secante_x;
         ulps = abs(doubleToLongLong(secante_x) - doubleToLongLong(newton_x));
 
         /* Imprimir */
-        printf("%d,%1.16e,%1.16e,%1.16e,%1.16e,%d\n", i+1, newton_x, secante_x, ea, er, ulps);
+        printf("%d,%1.16e,%1.16e,%1.16e,%1.16e,%1.16e,%1.16e,%d\n", i+1, newton_x, newton_crit, secante_x, secante_crit, ea, er, ulps);
 
         /* Atribuindo valores para próximas iterações */
         x0Newton = newton_x;
@@ -80,5 +87,5 @@ void iteracao(void *f, double x0, double epsilon, int max_iter) {
         
         i++;
 
-    } while ((i <= max_iter));
+    } while ((i <= max_iter && (newton_crit >= epsilon || secante_crit >= epsilon)));
 }
