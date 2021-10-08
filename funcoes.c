@@ -42,10 +42,12 @@ void iteracao(void *f, double x0, double epsilon, int max_iter) {
     double x0Secante, x1Secante;
     x0Secante = x0;
 
+    newton_crit = x0;
+    secante_crit = x0;
+
     /* Impressão dos valores iniciais */
     printf("0,%1.16e,%1.16e,%1.16e,%1.16e,%1.16e,%1.16e,0\n", 
-    x0Newton, fabs(evaluator_evaluate_x(f, x0)), x0Secante, 
-    fabs(evaluator_evaluate_x(f, x0)), (double) 0, (double) 0);
+    x0Newton, newton_crit, x0Secante, secante_crit, (double) 0, (double) 0);
 
     do
     {
@@ -67,8 +69,10 @@ void iteracao(void *f, double x0, double epsilon, int max_iter) {
         }
 
         /* Calcular newton_crit e secante_crit */
-        newton_crit = fabs(evaluator_evaluate_x(f, newton_x));
-        secante_crit = fabs(evaluator_evaluate_x(f, secante_x));
+        if (newton_crit >= epsilon)
+            newton_crit = fabs(1 - x0Newton/newton_x);
+        if (secante_crit >= epsilon)
+            secante_crit = fabs(1 - x1Secante/secante_x);
 
         /* Calcular EA e ER */
         ea = fabs(secante_x - newton_x);
